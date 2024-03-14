@@ -8,14 +8,16 @@ def on_event(event, context):
 
 def on_create(event):
   props = event["ResourceProperties"]
-  print("Create new resource with props %s" % props)
+  print("Create new resource with Reprops %s" % props)
 
   message = event['ResourceProperties']['Message']
 
   attributes = {
       'Response': 'Resource message "%s"' % message
   }
-  return { 'Data': attributes }
+  response = { 'Data': attributes }
+  print("Response: %s" % response)
+  return response
 
 def on_update(event):
   physical_id = event["PhysicalResourceId"]

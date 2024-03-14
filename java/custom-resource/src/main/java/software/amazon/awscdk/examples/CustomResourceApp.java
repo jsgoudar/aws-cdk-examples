@@ -10,9 +10,9 @@ public class CustomResourceApp {
   public static void main(final String args[]) {
     App app = new App();
 
-    props.put("Message", "AWS CDK");
+    props.put("Message", "AWS CDK NEW");
 
-    new CustomResourceStack(app, "cdk-custom-resource-example2", props);
+    new CustomResourceStack(app, "cdk-custom-resource-example-3", props);
 
     app.synth();
   }

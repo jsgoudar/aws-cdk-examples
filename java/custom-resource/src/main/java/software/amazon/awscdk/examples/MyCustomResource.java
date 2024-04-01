@@ -4,6 +4,7 @@ import java.nio.file.*;
 
 import java.util.Map;
 
+import software.amazon.awscdk.services.lambda.Code;
 import software.constructs.Construct;
 import software.amazon.awscdk.CustomResource;
 import software.amazon.awscdk.Duration;
@@ -23,10 +24,18 @@ public class MyCustomResource extends Construct {
 
     try {
 
-      final SingletonFunction onEvent = SingletonFunction.Builder.create(this, "Singleton")
-        .code(InlineCode.fromAsset("lambda"))
-        .handler("custom-resource-handler.on_event")
-        .runtime(Runtime.PYTHON_3_8)
+//      final SingletonFunction onEvent = SingletonFunction.Builder.create(this, "Singleton")
+//        .code(InlineCode.fromAsset("lambda"))
+//        .handler("custom-resource-handler.on_event")
+//        .runtime(Runtime.PYTHON_3_8)
+//        .uuid(UUID.randomUUID().toString())
+//        .timeout(Duration.minutes(1))
+//        .build();
+
+      SingletonFunction onEvent = SingletonFunction.Builder.create(this, "Singleton")
+        .code(Code.fromAsset("./lambda/target/java-custom-resource.jar"))
+        .handler("com.amazon.aws.example.CustomResourceHandler::handleRequest")
+        .runtime(Runtime.JAVA_17)
         .uuid(UUID.randomUUID().toString())
         .timeout(Duration.minutes(1))
         .build();
@@ -48,12 +57,5 @@ public class MyCustomResource extends Construct {
     }
   }
   // function to read the file content
-  public static String readFileAsString(String fileName) throws Exception {
-    try {
-      return new String(Files.readAllBytes(Paths.get(fileName)), "UTF-8");
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw e;
-    }
-  }
+
 }
